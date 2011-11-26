@@ -32,7 +32,7 @@ public class HWalk
 		{
 			return;
 		}
-		
+		//just a test
 		w.setPos(x, y);
 		w.setDir(0,1);
 		w.move(sz);
