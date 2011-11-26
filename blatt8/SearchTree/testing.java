@@ -10,6 +10,7 @@ public class testing {
 		SearchTree searchie = new SearchTree();
 		
 			//testing adding, produces same output as in the script
+			//comment for testing
 			searchie.add(6000, "Schaffhausen");
 			searchie.add(4000, "Basel");
 			searchie.add(3000, "Bern");
