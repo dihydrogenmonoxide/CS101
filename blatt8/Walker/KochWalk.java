@@ -54,7 +54,7 @@ public class KochWalk
 	}
 	public void show()
 	{
-		iw.openWindow("kochwalk");
+		iw.openWindow("kochwalk",0,600);
 	}
 	public void resetpos()
 	{

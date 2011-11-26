@@ -32,7 +32,9 @@ public class HWalk
 		{
 			return;
 		}
-		//just a test
+		//tada, added funny colors @ fox918
+		w.setColor((int)(n*1337)%256,(int)(n*1234)%256,(int)(n*4321)%256);
+		
 		w.setPos(x, y);
 		w.setDir(0,1);
 		w.move(sz);
@@ -51,6 +53,6 @@ public class HWalk
 	
 	public void show()
 	{
-		iw.openWindow("HWalk");
+		iw.openWindow("HWalk",800,0);
 	}
 }
