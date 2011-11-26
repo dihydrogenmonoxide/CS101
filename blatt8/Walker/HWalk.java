@@ -34,7 +34,6 @@ public class HWalk
 		}
 		//tada, added funny colors @ fox918
 		w.setColor((int)(n*1337)%256,(int)(n*1234)%256,(int)(n*4321)%256);
-		
 		w.setPos(x, y);
 		w.setDir(0,1);
 		w.move(sz);
