@@ -9,4 +9,17 @@ public class InnerNode extends Node{
 			this.left=_left;
 			this.right=_right;
 		}
+		
+		public String toString(){
+			String res="";
+			
+			//left branch
+			res += left!=null ? "("+key+" "+left.toString()+" ":"";
+			//separator
+			res+= " | ";
+			//right branch
+			res += right!=null ? " "+right.toString()+" "+key+")":"";
+			
+			return res;
+		}
 }

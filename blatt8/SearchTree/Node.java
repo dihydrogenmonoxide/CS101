@@ -1,5 +1,6 @@
 package SearchTree;
 
-public class Node {
+public abstract class Node {
 	int key;
+	public abstract String toString();
 }

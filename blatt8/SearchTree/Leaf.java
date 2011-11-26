@@ -6,4 +6,7 @@ public class Leaf extends Node{
 		this.key=_key;
 		this.value=_value;
 	}
+	public String toString(){
+		return "{"+key+" "+value+"}";
+	}
 }
