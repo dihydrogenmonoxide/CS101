@@ -1,10 +1,15 @@
 package SearchTree;
 
+import ch.unibas.informatik.cs101.BufferedImageWindow;
+
 public class SearchTree {
 		Node top;
+		int counter;
 		
 		/**Adds a key,value pair to the Searchtree*/
 		public void add(int key, String value){
+			//increase counter
+			counter++;
 			
 			//on the first insert create a leaf
 			if(top==null){
@@ -24,7 +29,7 @@ public class SearchTree {
 			 * or on the left side
 			 */
 			if(node instanceof Leaf){
-				if(node.key<key){ 
+				if(node.key<key){
 					return new InnerNode(node.key,node,new Leaf(key,value)); //right side
 					
 				}else{
@@ -81,4 +86,22 @@ public class SearchTree {
 			
 			return top.toString();
 		}
+		
+		public void drawTree(){
+			
+			//init 
+			int step_height=50;//determines the decrease in height per node
+			int width=counter*155;
+			int height=counter*step_height;
+			
+			BufferedImageWindow	w= new BufferedImageWindow(width,height);
+			w.setColor(0,0,0);
+			
+			//draw it recursively
+			top.draw(w, 0,step_height, 0, width,0);
+			
+			w.redraw();
+			w.openWindow("SearchTree",0,0);
+		}
+		
 }

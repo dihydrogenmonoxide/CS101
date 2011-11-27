@@ -16,10 +16,16 @@ public class testing {
 			searchie.add(2000, "Lausanne");
 			searchie.add(7000, "Zug");
 			searchie.add(5000, "Luzern");
-
+			
+			
+			for(int i=0;i<10;i++){
+				//searchie.add(i*1000+23, "Whop");
+			}
 			
 			System.out.println(searchie.toString());
 			System.out.println(searchie.search(5000));
+			
+			searchie.drawTree();
 	}
 
 }
