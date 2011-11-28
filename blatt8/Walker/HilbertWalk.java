@@ -31,7 +31,7 @@ public class HilbertWalk
 	
 	private Walker w;
 	private ImageWindow iw;
-	private static final int spacing = 5;
+	private static final int spacing = 10;
 	private double len;
 	
 	public HilbertWalk()
@@ -50,7 +50,8 @@ public class HilbertWalk
 		w.setDir(0, -1);
 		
 		//trying to get a reasonable length (it'll be rubbish for most cases but w/e)
-		this.len=length/Math.pow(step, 1.95f);
+	//	this.len=length/Math.pow(step+0.05,2.5f);
+		this.len=length/Math.pow(2,step);
 		swalk(step,false);
 	}
 	
