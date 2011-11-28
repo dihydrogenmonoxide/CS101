@@ -13,9 +13,13 @@ public class Walker
 		w2.walk(3, 800);
 		w2.show();
 		
-		HWalk w3 = new HWalk(1000,900);
-		w3.walk(7,600);
+		HWalk w3 = new HWalk();
+		w3.walk(9,500);
 		w3.show();
+		
+		HilbertWalk w4 = new HilbertWalk();
+		w4.walk(3, 500);
+		w4.show();
 	}
 
 }
