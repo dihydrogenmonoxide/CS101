@@ -25,7 +25,7 @@ public class HilbertWalk
 		instruction.walk,
 		instruction.doitReversed,
 		instruction.rotateRight
-		};
+		}; 
 	
 	
 	

@@ -19,7 +19,7 @@ public class Walker
 		
 		HilbertWalk w4 = new HilbertWalk();
 		w4.walk(3, 500);
-		w4.show();
+		w4.show(); 
 	}
 
 }

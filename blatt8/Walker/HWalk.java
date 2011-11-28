@@ -9,7 +9,7 @@ public class HWalk
 	private int szx = 800;
 	private int szy = 600;
 	private Walker w;
-	public HWalk()
+	public HWalk() 
 	{
 		//not much todo here
 	}
