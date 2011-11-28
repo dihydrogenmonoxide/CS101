@@ -3,7 +3,7 @@ package Walker;
 import ch.unibas.informatik.cs101.ImageWindow;
 import ch.unibas.informatik.cs101.Walker;
 
-public class HWalk 
+public class HWalk
 {
 	private ImageWindow iw;
 	private int szx = 800;
