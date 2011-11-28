@@ -91,13 +91,15 @@ public class SearchTree {
 			
 			//init 
 			int step_height=50;//determines the decrease in height per node
-			int width=counter*155;
+			int width=counter*155+150;
 			int height=counter*step_height;
 			
 			BufferedImageWindow	w= new BufferedImageWindow(width,height);
 			w.setColor(0,0,0);
 			
 			//draw it recursively
+			//draw(window, depth, step pro depth, x_min,x_max, ancestor)
+			
 			top.draw(w, 0,step_height, 0, width,0);
 			
 			w.redraw();
