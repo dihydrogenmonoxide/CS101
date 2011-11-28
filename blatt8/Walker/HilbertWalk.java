@@ -44,8 +44,12 @@ public class HilbertWalk
 		iw = new ImageWindow(length+2*spacing, length+2*spacing);
 		w= new Walker(iw);
 		w.pressBallPen();
+		
+		//setting position and direction
 		w.setPos(spacing, length-spacing);
 		w.setDir(0, -1);
+		
+		//trying to get a reasonable length (it'll be rubbish for most cases but w/e)
 		this.len=length/Math.pow(step, 1.95f);
 		swalk(step,false);
 	}
@@ -67,6 +71,7 @@ public class HilbertWalk
 	private void swalk(int num, boolean reversed)
 	{
 		if(num < 1) return;
+		
 		for(int i = 0; i != inst.length;i++)
 		{
 			switch(inst[i])
