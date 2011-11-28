@@ -9,21 +9,23 @@ public class HWalk
 	private int szx = 800;
 	private int szy = 600;
 	private Walker w;
-	public HWalk(int szx, int szy)
-	{
-		iw = new ImageWindow(szx, szy);
-		w= new Walker(iw);
-		w.pressBallPen();
-	}
 	public HWalk()
 	{
-		iw = new ImageWindow(szx, szy);
-		w= new Walker(iw);
-		w.pressBallPen();
+		//not much todo here
 	}
 	public void walk(int numwalks, int len)
 	{
-		swalk(numwalks,(int)szx/2-len/2,(int)szy/2-len/2,len);
+		double pos = 0;
+		for(int i = 0; i != numwalks;i++)
+		{
+			pos += len/Math.pow(2,i);
+		}
+		this.szx = (int) pos + 16;
+		this.szy = this.szx;
+		iw = new ImageWindow(szx, szy);
+		w= new Walker(iw);
+		w.pressBallPen();
+		swalk(numwalks,this.szy/2-len/2,this.szy/2-len/2,len);
 		
 	}
 	private void swalk(float n,float x, float y, float sz)
