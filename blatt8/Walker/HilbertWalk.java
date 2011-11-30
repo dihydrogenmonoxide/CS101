@@ -68,7 +68,7 @@ public class HilbertWalk
 	
 	public void show()
 	{
-		iw.openWindow("Hilbert walk with "+iter+" iterations");
+		iw.openWindow("Hilbert walk with "+iter+" iteration(s)");
 	}
 	
 	
