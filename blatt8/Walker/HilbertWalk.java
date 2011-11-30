@@ -33,6 +33,7 @@ public class HilbertWalk
 	private ImageWindow iw;
 	private static final int spacing = 10;
 	private double len;
+	private int iter = 0;
 	
 	public HilbertWalk()
 	{
@@ -48,6 +49,8 @@ public class HilbertWalk
 		//setting position and direction
 		w.setPos(spacing, length-spacing);
 		w.setDir(0, -1);
+		
+		this.iter = step;
 		
 		//trying to get a reasonable length (it'll be rubbish for most cases but w/e)
 	//	this.len=length/Math.pow(step+0.05,2.5f);
@@ -65,7 +68,7 @@ public class HilbertWalk
 	
 	public void show()
 	{
-		iw.openWindow("lalalal");
+		iw.openWindow("Hilbert walk with "+iter+" iterations");
 	}
 	
 	
