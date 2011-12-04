@@ -27,6 +27,7 @@ implements ActionListener
 	private JMenu menu;
 	private JMenuItem menuitem;
 	private int num = 10;
+	//arrays
 	private JButton fields[][];
 	private boolean buff[][];
 	private boolean buffnext[][];
