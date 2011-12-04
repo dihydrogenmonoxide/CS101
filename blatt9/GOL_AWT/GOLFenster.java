@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 //JFrame != awt!
-import javax.swing.JFrame;
-import javax.swing.JButton; 
+
+import javax.swing.*;
 
 
 public class GOLFenster 
@@ -21,6 +21,9 @@ implements ActionListener
 	//vars
 	private int szx;
 	private JFrame hwnd;
+	private JMenuBar hmenu;
+	private JMenu menu;
+	private JMenuItem menuitem;
 	private int num = 10;
 	private JButton fields[][];
 	private boolean buff[][];
@@ -32,6 +35,20 @@ implements ActionListener
 		szx = this.num*fieldsz+padding;
 
 		hwnd = new JFrame("Gäim of läif");
+		
+		hmenu = new JMenuBar();
+		menu = new JMenu("Next Step");
+		menu.setMnemonic(KeyEvent.VK_N);
+		menu.getAccessibleContext().setAccessibleDescription("Do the next evolutionary step in the game of life.");
+		
+		menuitem = new JMenuItem("Do the next step!");
+		menuitem.setMnemonic(KeyEvent.VK_N);
+		menuitem.addActionListener(this);
+		
+		menu.add(menuitem);
+		hmenu.add(menu);
+		hwnd.setJMenuBar(hmenu);
+		
 		fields = new JButton[num][num];
 		buff = new boolean[num][num];
 		buffnext = new boolean[num][num];
@@ -100,6 +117,10 @@ implements ActionListener
 
 	public void actionPerformed(ActionEvent e) 
 	{
+		if(e.getSource() == menuitem)
+		{
+			NextStep();						
+		}
 		for(int i = 0; i != num; i++)
 		{
 			for(int ii= 0; ii != num; ii++)
@@ -110,7 +131,8 @@ implements ActionListener
 					if(fields[i][ii].getText() == dead)
 						fields[i][ii].setText(alive);
 					else
-						fields[i][ii].setText(dead);										
+						fields[i][ii].setText(dead);	
+					return;
 				}
 			}
 			
@@ -218,9 +240,9 @@ implements ActionListener
 	
 	public static void main(String args[])
 	{
-		GOLFenster g = new GOLFenster(10,100,100);
+		GOLFenster g = new GOLFenster(18,100,100);
 
-		//*
+		/*
 		while(true)
 		{
 			System.out.println(g.toString());
