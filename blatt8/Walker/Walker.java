@@ -20,7 +20,8 @@ public class Walker
 		HilbertWalk w4 = new HilbertWalk();
 		w4.walk(1, 500);
 		w4.show(); 
-	/*	HilbertWalk w5 = new HilbertWalk();
+		/* add a / in front to uncomment
+		HilbertWalk w5 = new HilbertWalk();
 		w5.walk(2, 500);
 		w5.show(); 
 		HilbertWalk w6 = new HilbertWalk();
@@ -34,7 +35,7 @@ public class Walker
 		w8.show(); 
 		HilbertWalk w9 = new HilbertWalk();
 		w9.walk(6, 500);
-		w9.show(); */
+		w9.show(); //*/
 	}
 
 }
