@@ -25,7 +25,7 @@ implements ActionListener
 	private JButton fields[][];
 	private boolean buff[][];
 	private boolean buffnext[][];
-	
+	 
 	public GOLFenster(int num,int posx, int posy)
 	{
 		this.num = num;
