@@ -117,7 +117,7 @@ implements ActionListener
 		}
 		
 	}
-	
+	 
 	public synchronized void redraw() 
 	{
 		if (hwnd != null) 
@@ -128,7 +128,7 @@ implements ActionListener
 	
 	public boolean Get(int szx,int szy)
 	{
-		
+		//this way it'll propperly work
 		return buff[(szx+num)%num][(szy+num)%num];
 		
 	}
