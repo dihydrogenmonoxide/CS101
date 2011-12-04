@@ -15,9 +15,11 @@ implements ActionListener
 	//defines
 	private static final long serialVersionUID = -7089995554612910352L;
 	private static final int padding = 8;
-	private static final int fieldsz = 50;
+	private static final int fieldsz = 20;
 	private static final String dead = "";
 	private static final String alive = "@";
+	private static final Color cdead = new Color(230,230,230);
+	private static final Color calive = new Color(0,200,255);
 	//vars
 	private int szx;
 	private JFrame hwnd;
@@ -99,14 +101,20 @@ implements ActionListener
 			fields[x][y].addActionListener(this);		
 			fields[x][y].setLocation(padding+fieldsz*x, padding+fieldsz*y);
 			fields[x][y].setSize(fieldsz,fieldsz);
-			fields[x][y].setBackground(new Color(200,200,200));
+	//		fields[x][y].setBackground(new Color(200,200,200));
 			hwnd.add(fields[x][y]);
 			
 		}
 		if(alive)
-			fields[x][y].setText(GOLFenster.alive);
+		{
+			fields[x][y].setText(/*GOLFenster.alive*/"");
+			fields[x][y].setBackground(calive);
+		}
 		else
+		{
 			fields[x][y].setText(GOLFenster.dead);
+			fields[x][y].setBackground(cdead);
+		}
 		
 	}
 	private void mkfield(int x, int y, boolean alive)
@@ -128,11 +136,7 @@ implements ActionListener
 				if(e.getSource() == fields[i][ii])
 				{
 					buff[i][ii] = !buff[i][ii];
-					if(fields[i][ii].getText() == dead)
-						fields[i][ii].setText(alive);
-					else
-						fields[i][ii].setText(dead);	
-					return;
+					mkfield(i,ii,buff[i][ii]);
 				}
 			}
 			
@@ -240,7 +244,7 @@ implements ActionListener
 	
 	public static void main(String args[])
 	{
-		GOLFenster g = new GOLFenster(18,100,100);
+		GOLFenster g = new GOLFenster(15,100,100);
 
 		/*
 		while(true)
