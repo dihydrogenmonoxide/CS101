@@ -27,6 +27,10 @@ public class GameOfLife
 	{
 		sz=size;
 		buff= new boolean[sz][sz];
+		randSet();
+			
+	}
+	public void randSet(){
 		java.util.Random r = new java.util.Random();
 		for(int i = 0; i != sz;i++)
 		{
@@ -38,9 +42,8 @@ public class GameOfLife
 				else
 					buff[i][ii]=false;
 			}
-		}		
+		}	
 	}
-	
 	public boolean[][] GetAll()
 	{
 		return buff;

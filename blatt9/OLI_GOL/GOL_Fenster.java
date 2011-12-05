@@ -13,65 +13,67 @@ public class GOL_Fenster extends Component implements MouseListener{
 	
 	private static final long serialVersionUID = 1L;
 	
+	//used for painting
 	private JFrame w;
-	private int sz_cell=10;		//size per Cell
-	private int pad_y = 5;		//padding
+	private int size_cell=10;	
+	private int pad_y = 5;
 	private int pad_x = 5;
-	private boolean run=true;	//if it's running
-	private int timeout=100;	
+	
+	private boolean makeBorder=false;
+	private Color cAlive = new Color(0,255,0);
+	private Color cDead  = new Color(255,0,0);
+	private Color cBorder= new Color(0,0,0);
+	
+	//settings of the game
+	private boolean running=true;
+	private int delay=100;	
 	
 	private int cells;		
 	private GameOfLife game;
 
+	
+	/**Starts GOL_Fenster with a default of 50 cells*/
 	public  GOL_Fenster(){
-		this(50); //default is 50 cells
+		this(50); 
 	}
 	
+	/**Constructor of GOL_Fenster, specify how many cells you want (int).*/
 	public GOL_Fenster(int _cells){
 		cells=_cells;
+		
 		game= new GameOfLife(cells);
-		//makes new JFrame, make some settings and add itself and menu
+		
 		w = new JFrame("Game of life");
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		w.setBackground(new Color(255,255,255));
+		
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		w.getContentPane().add(this,BorderLayout.CENTER);
+		
 		makeMenu();
 		w.pack();
 		w.setVisible(true);
-			     
+		
+		
 		addMouseListener(this);
 				
-		//now the infinite loop
-		run();
-	}
-	
-
-	/** runs the game as long */
-	public void run(){
+		//now to the infinite loop
 		while(true){
-			try
-			{
-				Thread.sleep(timeout);
-			}
-			catch(InterruptedException e)
-			{
-				//nothing to do
-			}
-				if(run){nextStep();}
+			/*sleep*/
+			try{Thread.sleep(delay);}catch(InterruptedException e){/*nothing to do*/}
+			
+			if(running){nextStep();}
 		}
 	}
 	
-	/**Mo Mo Mo MONSTERKILL*/
-	public void reset(){
-		game.reset(); //clears all cells
-		redraw();
-	}
+	
 
 	/**return a nice fitted size for the window, with a padding*/
 	public Dimension getPreferredSize(){
-		return new Dimension(cells*sz_cell+2*pad_x,cells*sz_cell+2*pad_y);
+		return new Dimension(cells*size_cell+2*pad_x,cells*size_cell+2*pad_y);
 	}
 	
-	/**redraws JFrame*/
+	/**redraws and updates the JFrame and all components*/
 	public synchronized void redraw(){
 		w.repaint();
 	}
@@ -83,36 +85,45 @@ public class GOL_Fenster extends Component implements MouseListener{
 	}
 	
 	/**paint method, is called by JFrame on redraw.
-	 * Iterates through all cells and draws a rectangle, 
-	 * colored green if they're alive and red if they're dead*/
+	 * Iterates through all cells and draws a rectangle for each cell.
+	 * Cell is colored green if they're alive and red if they're dead*/
 	public void paint(Graphics g){
-	
 		for(int x=0;x<cells;x++){
 			for(int y=0;y<cells;y++){
+				
 				if(game.getCell(x, y)){
-					g.setColor(new Color(0,255,0));
+					g.setColor(cAlive);
 				}else{
-					g.setColor(new Color(255,0,0));
+					g.setColor(cDead);
 				}
-				g.fillRect(pad_x+x*sz_cell, pad_y+y*sz_cell, sz_cell, sz_cell);
+				
+				g.fillRect(pad_x+x*size_cell, pad_y+y*size_cell, size_cell, size_cell);
+				
+				if(makeBorder){
+					g.setColor(cBorder);
+					g.drawRect(pad_x+x*size_cell, pad_y+y*size_cell, size_cell, size_cell);
+				}
+				
 			}
 		}
 	}
-
-	//Mouselistener
-	public void mouseClicked(MouseEvent e) {}
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	public void mousePressed(MouseEvent e) {}
+	
+	/**Mo Mo Mo MONSTERKILL*/
+	public void reset(){
+		game.reset(); //clears all cells
+		redraw();
+	}
+	
 	/**Changes the state of a cell to the opposite*/
+	
 	public void mouseReleased(MouseEvent e) {
 		//be careful because there's a padding
 		int x=e.getX()-pad_x;
 		int y=e.getY()-pad_y;
 		
-		//determine x and y of the cell clicked in
-		x=(x-x%sz_cell)/sz_cell;
-		y=(y-y%sz_cell)/sz_cell;
+		//determine the cell clicked in by the coordinates (return the position in the array)
+		x=(x-x%size_cell)/size_cell;
+		y=(y-y%size_cell)/size_cell;
 		
 		//set cell
 		game.setCell(x, y, !game.getCell(x, y));
@@ -121,59 +132,99 @@ public class GOL_Fenster extends Component implements MouseListener{
 	}
 	
 	
+	/**********************			NOT IMPORTANT FOR THE EXERCISE			*****************************/
 	
-	//Now the MENU
-	public void makeMenu(){
-		//toggle Button
-	   JButton toggle = new JButton("Stop");
-		toggle.addActionListener(
-				new ActionListener(){ 
-					public void actionPerformed(ActionEvent ae) 
-					{ 
-						run=!run;
-						JButton b = (JButton)ae.getSource();
-						if(run){
-							b.setText("Stop");
-						}else{
-							b.setText("Start");
-						}
-					}}
-		);
+	//Mouselistener not used 
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	public void mousePressed(MouseEvent e) {}
+	
+	private void makeMenu(){
+		
+	   JButton toggleAnim = new JButton("Stop animation");
+		toggleAnim.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent ae){ 
+			running=!running;
+			JButton b = (JButton)ae.getSource();
+			if(running){
+				b.setText("Stop Animation");
+			}else{
+				b.setText("Start Animation");
+			}
+		}});
 		
 		//velocity slider
 		JSlider velocity = new JSlider();
-	    velocity.setBorder(BorderFactory.createTitledBorder("Velocity"));
+	    velocity.setBorder(BorderFactory.createTitledBorder("Velocity, delay="+String.valueOf(delay)+"ms"));
 	    velocity.setMajorTickSpacing(20);
 	    velocity.setMinorTickSpacing(5);
 	    velocity.setPaintTicks(true);
-	    velocity.setPaintLabels(true);
 	    
-	    velocity.addChangeListener(new ChangeListener(){
-	    	public void stateChanged(ChangeEvent e) {
+	    velocity.addChangeListener(new ChangeListener(){public void stateChanged(ChangeEvent e) {
 	            JSlider source = (JSlider)e.getSource();
 	            if (!source.getValueIsAdjusting()) {
-	                timeout = 20*((100-(int)source.getValue())+2);
+	                delay = 20*((100-(int)source.getValue())+1); 
+	                source.setBorder(BorderFactory.createTitledBorder("Velocity delay="+String.valueOf(delay)+"ms"));
 	            }
-	    	}
-	    });
+    	}});
 	    
-	    //clear button
-		 JButton reset = new JButton("clear");
-		 reset.addActionListener(
-					new ActionListener(){ 
-						public void actionPerformed(ActionEvent ae) 
-						{ 
-							reset();
-						}}
-			);
+		JButton MONSTERKILL = new JButton("Monsterkill");
+		MONSTERKILL.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent ae){ 
+			reset();
+			JButton b = (JButton)ae.getSource();
+			b.setText("Murderer");
+			b.setToolTipText("YOU SHALL DIE");
+		}});
 		 
-		 //add it all to the main JFrame
-	     JPanel panel= new JPanel();
-	     w.getContentPane().add(panel,BorderLayout.SOUTH);
-	     panel.add(toggle,BorderLayout.EAST);
-	     panel.add(velocity,BorderLayout.CENTER);
-	     panel.add(reset,BorderLayout.WEST);
-	     panel.setMaximumSize(new Dimension(cells*sz_cell+2*pad_x,50));
+		JButton nextStep = new JButton("next step in life");
+		nextStep.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent ae){ 
+			nextStep();
+		}});
+		
+		JButton toggleBorder = new JButton("toggle Border");
+		toggleBorder.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent ae){ 
+			makeBorder=!makeBorder;
+			redraw();
+		}});
+		 
+		JButton randColor = new JButton("random colors");
+		randColor.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent ae){ 
+			java.util.Random n = new java.util.Random();
+			cAlive=new Color(n.nextInt(255),n.nextInt(255),n.nextInt(255));
+			cDead=new Color(n.nextInt(255),n.nextInt(255),n.nextInt(255));
+			cBorder=new Color(n.nextInt(255),n.nextInt(255),n.nextInt(255));
+			redraw();
+		}});
+		 
+		JButton resetColor = new JButton("reset Colors");
+		resetColor.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent ae){ 
+			cAlive = new Color(0,255,0);
+			cDead  = new Color(255,0,0);
+			cBorder= new Color(0,0,0);
+			redraw();
+		}});
+		 
+		JButton randSet = new JButton("set random cells");
+		randSet.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent ae){ 
+			game.randSet();
+			redraw();
+			JButton b = (JButton)ae.getSource();
+			b.setText("GOD");
+		}});
+		 
+		JPanel menu= new JPanel(new GridLayout(0,2));
+	     
+	    menu.add(velocity);
+	    menu.add(toggleAnim);
+	    menu.add(nextStep);
+	    menu.add(toggleBorder);
+	    menu.add(MONSTERKILL);
+	    menu.add(randSet);
+	    menu.add(randColor);
+	    menu.add(resetColor);
+	   
+	    menu.setIgnoreRepaint(true);
+	    w.getContentPane().add(menu,BorderLayout.SOUTH);
 	}
 	
 
