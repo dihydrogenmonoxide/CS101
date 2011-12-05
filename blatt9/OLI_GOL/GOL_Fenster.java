@@ -47,6 +47,8 @@ public class GOL_Fenster extends Component implements MouseListener{
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		w.setBackground(new Color(255,255,255));
 		
+		w.setResizable(false);
+		
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		w.getContentPane().add(this,BorderLayout.CENTER);
 		
@@ -199,8 +201,8 @@ public class GOL_Fenster extends Component implements MouseListener{
 		JButton resetColor = new JButton("reset Colors");
 		resetColor.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent ae){ 
 			cAlive = new Color(0,255,0);
-			cDead  = new Color(255,0,0);
-			cBorder= new Color(0,0,0);
+			cDead  = new Color(0,0,0);
+			cBorder= new Color(0,255,0);
 			redraw();
 		}});
 		 
