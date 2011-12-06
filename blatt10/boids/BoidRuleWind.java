@@ -13,6 +13,9 @@ public class BoidRuleWind extends BoidRule {
 		this.direction = direction;
 	}
 	
+	public Vector2 getDirection(){return direction;}
+	public void setDirection(Vector2 _direction){this.direction=_direction;}
+	
 	@Override
 	public Vector2 getUpdate(Boid boid, Vector<Boid> neighbours) {
 		return direction;

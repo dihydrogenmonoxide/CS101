@@ -13,6 +13,9 @@ public class BoidRuleLimitedSpeed extends BoidRule {
 		this.factor = factor;
 	}
 	
+	public double getFactor(){return factor;};
+	public void setFactor(double _factor){this.factor=_factor;};
+	
 	@Override
 	public Vector2 getUpdate(Boid boid, Vector<Boid> neighbours) {
 		// TODO Auto-generated method stub

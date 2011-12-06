@@ -26,7 +26,7 @@ public class BoidWindow extends Frame implements WindowListener {
 
 	BoidWindow(BoidSimulation boids) {
 		this.boids = boids;		
-		setSize(640, 480);
+		setSize(1000, 1000);
 		setVisible(true);
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();

@@ -52,11 +52,13 @@ public class Boids {
 		 * - Wind
 		 * so dass alle Parameter dieser Regeln in der GUI gesetzt werden koennen.
 		 */
-                w.addRuleView(new BoidRuleTargetView(targetRule1));
-                w.addRuleView(new BoidRuleTargetView(targetRule2));
-                w.addRuleView(new BoidRuleTargetView(targetRule3));
-                w.addRuleView(new BoidRuleLimitedSpeedView(limitedSpeedRule));
-                w.addRuleView(new BoidRuleWind(windRule));
+		
+         w.addRuleView(new BoidRuleTargetView(targetRule1));
+         w.addRuleView(new BoidRuleTargetView(targetRule2));
+         w.addRuleView(new BoidRuleTargetView(targetRule3));
+         w.addRuleView(new BoidRuleLimitedSpeedView(limitedSpeedRule));
+         w.addRuleView(new BoidRuleWindView(windRule));
+		
 		
 		int iteration=0;
 		while (true) {

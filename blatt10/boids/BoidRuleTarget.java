@@ -17,6 +17,14 @@ public class BoidRuleTarget extends BoidRule {
 		this.falloff = falloff;
 	}
 	
+	public Vector2 getTarget(){return target;}
+	public double getSpeed(){return speed;}
+	public double getFallOff(){return falloff;}
+	
+	public void setTarget(Vector2 _target){this.target=_target;}
+	public void setSpeed(double _speed){this.speed=_speed;}
+	public void setFallOff(double _falloff){this.falloff=_falloff;}
+	
 	@Override
 	public Vector2 getUpdate(Boid boid, Vector<Boid> neighbours) {
 		Vector2 direction = target.minus(boid.getPosition());
