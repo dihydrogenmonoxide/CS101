@@ -3,6 +3,11 @@
  */
 package boids;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment; // for fullscreen whoah
+import java.io.ObjectInputStream.GetField;
+
+
 /**
  * Main Boids simulation program
  */
@@ -41,6 +46,7 @@ public class Boids {
 		simulation.addRule(windRule);
 
 		BoidWindow w = new BoidWindow(simulation);
+	
 		w.addRuleView(new BoidRuleAlignmentView(alignmentRule));
 		w.addRuleView(new BoidRuleCohesionView(cohesionRule));
 		w.addRuleView(new BoidRuleSeparationView(separationRule));
@@ -53,10 +59,22 @@ public class Boids {
 		 * so dass alle Parameter dieser Regeln in der GUI gesetzt werden koennen.
 		 */
 		
+		//fullscreen
+		try{
+			GraphicsEnvironment ge= GraphicsEnvironment.getLocalGraphicsEnvironment();
+			GraphicsDevice screen=ge.getDefaultScreenDevice();
+			//now set fullscreen
+			if(screen.isFullScreenSupported()){screen.setFullScreenWindow(w);}
+		}catch(Exception e){
+			System.out.println("Sorry, no fullscreen for you");
+		}
+		
+		
+		// exercise
+		 w.addRuleView(new BoidRuleLimitedSpeedView(limitedSpeedRule));
          w.addRuleView(new BoidRuleTargetView(targetRule1));
          w.addRuleView(new BoidRuleTargetView(targetRule2));
          w.addRuleView(new BoidRuleTargetView(targetRule3));
-         w.addRuleView(new BoidRuleLimitedSpeedView(limitedSpeedRule));
          w.addRuleView(new BoidRuleWindView(windRule));
 		
 		

@@ -9,7 +9,6 @@ public class BoidRuleTargetView extends BoidRuleView implements AdjustmentListen
 		
 		private Canvas c;
 		
-		private int cSize=140;		//size of the drawing field
 		private double wMaxSize=1000; //max window size of the boids window
 		
 		private double speedScale=10000;
@@ -23,29 +22,28 @@ public class BoidRuleTargetView extends BoidRuleView implements AdjustmentListen
 		public BoidRuleTargetView(BoidRuleTarget _rule){
 			this.rule=_rule;
 			
-			
 			/*
 			 * Canvas for which draws the Location of the actual Target relative to the Window in itself*/
 			c=new Canvas(){
 						public void paint(Graphics g){
-							
+					
 							g.setColor(new Color(255,0,0));
 							
 							//this draws the actual Target as rectangle
-							g.fillOval((int)(rule.getTarget().x/wMaxSize*cSize)-3,(int)(rule.getTarget().y/wMaxSize*cSize)-3, 6, 6);
+							g.fillOval((int)(rule.getTarget().x/wMaxSize*c.getSize().height)-3,(int)(rule.getTarget().y/wMaxSize*c.getSize().width)-3, 6, 6);
 							
 							g.setColor(new Color(0,0,0));
 							g.drawString("Target", 5, 12);
 							g.drawRect(0, 0, c.getSize().width-1, c.getSize().height-1);
 						}
 						};
-			
+			//this.getMaximumSize()
 			/*Mouse Listener for moving the target*/
 			c.addMouseMotionListener(new MouseMotionListener(){
 				@Override
 				public void mouseDragged(MouseEvent arg0) {
-					double x=arg0.getX()/(double)cSize*wMaxSize;
-					double y=arg0.getY()/(double)cSize*wMaxSize;
+					double x=arg0.getX()/(double)c.getSize().height*wMaxSize;
+					double y=arg0.getY()/(double)c.getSize().width*wMaxSize;
 					rule.setTarget(new Vector2(x,y));
 					c.repaint();
 				}
@@ -53,8 +51,12 @@ public class BoidRuleTargetView extends BoidRuleView implements AdjustmentListen
 				public void mouseMoved(MouseEvent arg0) {}
 			});
 			
-			c.setSize(cSize, cSize);
-			c.setPreferredSize(new Dimension(cSize,cSize));
+			//some tweaking so the canvas does't get to big, 
+			//however, i cannot set any size permanently as GridLayout
+			//ignores it
+			c.setSize(140,140);
+			c.setPreferredSize(new Dimension(140,140));
+			c.setMaximumSize(new Dimension(140,140));
 			
 			/*Scrollbar for changing the speed value*/
 			speedLbl  =	new Label(""+rule.getSpeed());
@@ -132,6 +134,7 @@ public class BoidRuleTargetView extends BoidRuleView implements AdjustmentListen
 			add(targetInputs);
 			
 			add(c);
+			
 		}
 
 		@Override

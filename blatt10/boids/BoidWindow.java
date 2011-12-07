@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
 
+
 /*
  * Display the boids
  */
@@ -25,8 +26,8 @@ public class BoidWindow extends Frame implements WindowListener {
 	private Panel controls; 
 
 	BoidWindow(BoidSimulation boids) {
-		this.boids = boids;		
-		setSize(1000, 1000);
+		this.boids = boids;
+		setSize(1000, 600); //adjust window size here
 		setVisible(true);
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
