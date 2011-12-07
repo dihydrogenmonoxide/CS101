@@ -17,6 +17,8 @@ public class BoidRuleCohesion extends BoidRule {
 	public Vector2 getUpdate(Boid boid, Vector<Boid> neighbours) {
 		Vector2 center = new Vector2(0,0);
 		for (int i=0; i<neighbours.size(); ++i) {
+			if(neighbours.size() == 0)
+		           return center;
 			center = center.add(neighbours.get(i).getPosition());
 		}
 		center = center.divide(neighbours.size());

@@ -17,6 +17,8 @@ public class BoidRuleAlignment extends BoidRule {
 	public Vector2 getUpdate(Boid boid, Vector<Boid> neighbours) {
 		Vector2 average_velocity = new Vector2(0,0);
 		for (int i=0; i<neighbours.size(); ++i) {
+			if(neighbours.size() == 0)
+		           return average_velocity;
 			average_velocity = average_velocity.add(neighbours.get(i).getVelocity());
 		}
 		average_velocity = average_velocity.divide(neighbours.size());
