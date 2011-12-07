@@ -1,6 +1,6 @@
 package OLI_GOL;
 
-public class GameOfLife 
+public class GameOfLife implements Runnable
 {
 	private int sz=6;
 	private boolean buff[][];
@@ -72,7 +72,7 @@ public class GameOfLife
 		}
 	}
 	
-	public int neighbourCount(int szx, int szy)
+	public synchronized int neighbourCount(int szx, int szy)
 	{
 		int retval = 0;
 		for (int i = szx-1;i != szx+2;i++)
@@ -108,7 +108,7 @@ public class GameOfLife
 	}
 	
 	//next step in the evolution
-	public void NextStep()
+	public synchronized void NextStep()
 	{
 		boolean[][] n = new boolean[sz][sz];
 		for(int i = 0; i !=sz;i++)
@@ -169,6 +169,12 @@ public class GameOfLife
 	public boolean notChanging()
 	{
 		return equOld;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		this.NextStep();
 	}
 	
 }
