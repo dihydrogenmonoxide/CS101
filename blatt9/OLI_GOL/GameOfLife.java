@@ -49,7 +49,7 @@ public class GameOfLife implements Runnable
 		return buff;
 	}
 	
-	public void reset(){
+	public synchronized void reset(){
 		buff=new boolean[sz][sz];
 	}
 	
@@ -65,7 +65,7 @@ public class GameOfLife implements Runnable
 		}
 		return false;
 	}
-	public void setCell(int x, int y, boolean b){
+	public synchronized void setCell(int x, int y, boolean b){
 		if(x<sz && y<sz)
 		{
 			buff[x][y]=b;
@@ -108,7 +108,7 @@ public class GameOfLife implements Runnable
 	}
 	
 	//next step in the evolution
-	public synchronized void NextStep()
+	public void NextStep()
 	{
 		boolean[][] n = new boolean[sz][sz];
 		for(int i = 0; i !=sz;i++)
