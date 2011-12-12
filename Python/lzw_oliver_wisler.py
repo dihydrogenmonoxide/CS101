@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#bitte beim TODO vervollständigen
 
 def lzw_decompress(idx, woerterbuch):
   ret = ""
@@ -10,30 +9,25 @@ def lzw_decompress(idx, woerterbuch):
 def lzw_compress(eingabedaten):
   woerterbuch=[]
   idx = [] #index des worts
-  verbose = False
+  verbose =False
   #hier wird der ascii table generiert
   for i in xrange(0,256):
     woerterbuch.append(unichr(i))
   print "compressing..."
 
+#Hier beginnt mein Code
+
   pattern ="" #current pattern
   
   for i in eingabedaten:
-    if woerterbuch.count(pattern+i):
-      #pattern+i has been found, therefore the last item shall be removed and replaced
-      if len(idx)!=0:
-        idx.pop();
+    if pattern+i in woerterbuch:
       pattern=pattern+i #extend pattern
     else:
-      #pattern+i is not in the lexica, therefore add it to it
       woerterbuch.append(pattern+i)
-      if verbose:print "added "+pattern+i+" to lexica, index=",woerterbuch.index(pattern+i);
-      pattern = i #reset pattern
+      idx.append(woerterbuch.index(pattern))
+      pattern=i
 
-    #add current pattern to string
-    idx.append(woerterbuch.index(pattern))
-    if verbose:print "added "+pattern+"  to idx";
- 
+  idx.append(woerterbuch.index(pattern))
   print "finished compressing"
   
   #fertig TODO
@@ -48,7 +42,7 @@ if __name__ == '__main__':
   inputstr="ABBBBBB"
   #inputstr="LZWLZ8LZ77LZCLZMWLZAP"
   ##man kann auch den inhalt einer Datei komprimieren:
-  #inputstr = open("lzw.py", 'r').read()
+  inputstr = open("lzw_oliver_wisler.py", 'r').read()
  
   print head(inputstr, 5)
   print "input length", len(inputstr)
