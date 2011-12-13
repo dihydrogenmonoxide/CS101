@@ -26,7 +26,7 @@ extends JFrame
 	private JTextField output;
 	private JTextField input;
 	
-	public PLZGUI()
+	public PLZGUI() 
 	{
 		p.parse("blatt10/plz/plz.txt");
 		this.setTitle("Some PLZ thingy\nlolol");
