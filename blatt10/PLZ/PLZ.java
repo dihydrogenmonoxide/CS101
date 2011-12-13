@@ -6,8 +6,8 @@ import java.util.*;
 
 public class PLZ 
 {
-	protected static final boolean verbose = true;
-	protected List<cAddy> PLZlist;
+	private static final boolean verbose = true;
+	private List<cAddy> PLZlist;
 	
 	public PLZ(){}
 	
@@ -84,7 +84,7 @@ public class PLZ
 		
 	}
 
-	public cAddy HandleInput(String Input)
+	public cAddy[] HandleInput(String Input)
 	{
 		if (PLZlist == null)
 		{
@@ -93,7 +93,7 @@ public class PLZ
 			return null;
 		}
 		
-		int index;
+		int index,high,low;
 		
 		try
 		{
@@ -106,14 +106,85 @@ public class PLZ
 				System.out.println("Seems your input wasn't a Number and thus no PLZ");
 			return null;
 		}
-		if(index == 0)
+		if(index < 0 || index > PLZlist.size()-1)
 		{
 			if(verbose)
 				System.out.println("Couldn't find the PLZ "+Input+" in switzerland");
 			return null;
 		}
-		return PLZlist.get(index);				
+		
+		low = 0;
+		high = PLZlist.size()-1;
+		for(int i = index;i!=0;i--)
+		{
+			if(PLZlist.get(index).GetPLZ() != PLZlist.get(i).GetPLZ())
+			{
+				low = i+1;
+				break;
+			}
+		}
+		
+		for(int i = index;i!=PLZlist.size();i++)
+		{
+			if(PLZlist.get(index).GetPLZ() != PLZlist.get(i).GetPLZ())
+			{
+				high = i-1;
+				break;
+			}
+		}
+		
+		cAddy[] ret=new cAddy[high-low+1];
+		
+		int i = 0;
+		do
+		{	
+			ret[i] = PLZlist.get(low+i);
+			i++;
+		}
+		while(low+i <= high);
+		
+		return ret;				
+	}
+	
+	public String makeString(cAddy[] a)
+	{
+		String ret = "";
+		ret += "The PLZ "+a[0].GetPLZ()+" belongs to ";
+		for(int i = 0; i != a.length;i++)
+		{
+			if(i!=a.length-1) 
+				ret += a[i].GetName()+" & ";
+			else
+				ret += a[i].GetName();
+		}
+		ret += " in the canton of "+a[0].GetKanton();
+		
+		return ret;
+	}
+	
+	public void addnew(int PLZ, String name, String Kanton)
+	{
+		PLZlist.add(new cAddy(PLZ,name,Kanton,0,0,0));
+		Collections.sort(PLZlist);
 	}
 	
 	
+
+	public void save(String fname)
+	{
+		try
+		{
+			FileWriter fstream = new FileWriter(fname);
+			BufferedWriter out = new BufferedWriter(fstream);
+			for(int i = 0; i != PLZlist.size(); i++)
+			{
+				out.write(PLZlist.get(i).toString()+"\n");
+			}
+		}
+		catch(IOException e)
+		{
+			System.out.println("failed to write the file");
+			//meh don't bother anymore
+		}
+	}
 }

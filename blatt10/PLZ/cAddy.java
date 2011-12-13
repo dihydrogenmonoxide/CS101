@@ -60,4 +60,17 @@ implements Comparable<cAddy>
 	{
 		return _unknown3;
 	}
+	
+	public String toString()
+	{
+		String ret = "";
+		ret += _unknown1+"\t";
+		ret += _unknown2+"\t";
+		ret += _PLZ+"\t";
+		ret += _unknown3+"\t";
+		ret += _name+"\t";
+		ret += _name+"\t";
+		ret += _kanton;
+		return ret;
+	}
 }
