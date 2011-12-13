@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.text.ParseException;
 import javax.swing.border.*;
 import javax.swing.text.*;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class plzguigen extends JFrame {
 
@@ -53,10 +54,8 @@ public class plzguigen extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		
-		Label label = new Label("Enter the PLZ here:");
-		label.setAlignment(Label.CENTER);
-		label.setEnabled(false);
-		panel.add(label);
+		JLabel lblEnterThePlz = DefaultComponentFactory.getInstance().createLabel("Enter the PLZ:");
+		panel.add(lblEnterThePlz);
 		
 		textField = new JFormattedTextField(textmask());
 		textField.setToolTipText("Enter the PLZ here");
