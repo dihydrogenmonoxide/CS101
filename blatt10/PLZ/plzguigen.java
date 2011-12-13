@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
@@ -24,11 +23,14 @@ import java.awt.event.InputEvent;
 import java.text.ParseException;
 
 import javax.swing.JFormattedTextField;
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.Label;
 
 public class plzguigen extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6932703849032028687L;
 	private JPanel contentPane;
 	private JFormattedTextField textField;
 	JTextPane txtpnOutput;
