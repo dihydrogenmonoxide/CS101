@@ -178,13 +178,15 @@ public class PLZ
 			BufferedWriter out = new BufferedWriter(fstream);
 			for(int i = 0; i != PLZlist.size(); i++)
 			{
-				out.write(PLZlist.get(i).toString()+"\n");
+				out.write(PLZlist.get(i).toString());
+				out.newLine();
 			}
+			out.close();
 			fstream.close();
 		}
 		catch(IOException e)
 		{
-			System.out.println("failed to write the file");
+			System.out.println("failed to write the file"+e.getMessage());
 			//meh don't bother anymore
 		}
 	}
