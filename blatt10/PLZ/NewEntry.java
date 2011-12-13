@@ -1,20 +1,17 @@
 package PLZ;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
+import java.awt.event.*;
 
 public class NewEntry extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1296187841777966596L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtPlz;
 	private JTextField txtName;
@@ -40,7 +37,9 @@ public class NewEntry extends JDialog {
 	 */
 	public NewEntry(PLZ p) {
 		this.p = p;
-		setBounds(100, 100, 316, 116);
+	//	setBounds(100, 100, 316, 116);
+		this.setTitle("Add a new location to the list");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("blatt10/PLZ/smile.png"));
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

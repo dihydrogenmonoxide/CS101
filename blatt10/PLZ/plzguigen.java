@@ -1,29 +1,11 @@
 package PLZ;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.SwingConstants;
-import javax.swing.JTextPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 import java.text.ParseException;
-
-import javax.swing.JFormattedTextField;
-import java.awt.Label;
+import javax.swing.border.*;
+import javax.swing.text.*;
 
 public class plzguigen extends JFrame {
 
@@ -45,6 +27,7 @@ public class plzguigen extends JFrame {
 			public void run() {
 				try {
 					plzguigen frame = new plzguigen();
+					
 					frame.pack();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -60,7 +43,56 @@ public class plzguigen extends JFrame {
 	public plzguigen() {
 		p.parse("blatt10/plz/plz.txt");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 483, 309);
+		this.setTitle("some PLZ stuff");
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage("blatt10/PLZ/smile.png"));
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.NORTH);
+		
+		Label label = new Label("Enter the PLZ here:");
+		label.setAlignment(Label.CENTER);
+		label.setEnabled(false);
+		panel.add(label);
+		
+		textField = new JFormattedTextField(textmask());
+		textField.setToolTipText("Enter the PLZ here");
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(textField);
+		textField.setColumns(10);
+		txtpnOutput = new JTextPane();
+		txtpnOutput.setText("Output:\n\n\n\n\n\n\n\n");
+		contentPane.add(txtpnOutput, BorderLayout.CENTER);
+		
+		textField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyChar()==10){
+					handleinput();
+				}
+				if(arg0.getKeyChar()=='c'){
+					textField.setText("");
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {}
+			@Override
+			public void keyTyped(KeyEvent arg0) {}
+		});
+
+
+		
+		JButton btnNewButton = new JButton("Find!");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				handleinput();				
+			}
+		});
+		panel.add(btnNewButton);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -93,34 +125,6 @@ public class plzguigen extends JFrame {
 		mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mntmSave.setMnemonic(KeyEvent.VK_S);
 		mnFile.add(mntmSave);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, BorderLayout.NORTH);
-		
-		Label label = new Label("Enter the PLZ here:");
-		panel.add(label);
-		
-		textField = new JFormattedTextField(textmask());
-		textField.setToolTipText("Enter the PLZ here");
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(textField);
-		textField.setColumns(30);
-		txtpnOutput = new JTextPane();
-		txtpnOutput.setText("Output:\n\n\n\n\n\n\n\n");
-		contentPane.add(txtpnOutput, BorderLayout.CENTER);
-		
-		JButton btnNewButton = new JButton("Find!");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				handleinput();				
-			}
-		});
-		panel.add(btnNewButton);
 		
 		
 	}
