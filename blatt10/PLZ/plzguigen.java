@@ -28,7 +28,6 @@ public class plzguigen extends JFrame {
 			public void run() {
 				try {
 					plzguigen frame = new plzguigen();
-					
 					frame.pack();
 					frame.setVisible(true);
 				} catch (Exception e) {
