@@ -25,12 +25,13 @@ import java.text.ParseException;
 
 import javax.swing.JFormattedTextField;
 import javax.xml.parsers.ParserConfigurationException;
+import java.awt.Label;
 
 public class plzguigen extends JFrame {
 
 	private JPanel contentPane;
 	private JFormattedTextField textField;
-	JTextPane textPane;
+	JTextPane txtpnOutput;
 	private JFileChooser fc = new JFileChooser();
 	private PLZ p = new PLZ();
 
@@ -42,6 +43,7 @@ public class plzguigen extends JFrame {
 			public void run() {
 				try {
 					plzguigen frame = new plzguigen();
+					frame.pack();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +58,7 @@ public class plzguigen extends JFrame {
 	public plzguigen() {
 		p.parse("blatt10/plz/plz.txt");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 483, 309);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -97,13 +99,17 @@ public class plzguigen extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		
+		Label label = new Label("Enter the PLZ here:");
+		panel.add(label);
+		
 		textField = new JFormattedTextField(textmask());
 		textField.setToolTipText("Enter the PLZ here");
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		panel.add(textField);
 		textField.setColumns(30);
-		textPane = new JTextPane();
-		contentPane.add(textPane, BorderLayout.CENTER);
+		txtpnOutput = new JTextPane();
+		txtpnOutput.setText("Output:\n\n\n\n\n\n\n\n");
+		contentPane.add(txtpnOutput, BorderLayout.CENTER);
 		
 		JButton btnNewButton = new JButton("Find!");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -135,9 +141,9 @@ public class plzguigen extends JFrame {
 	{
 		cAddy[] a = p.HandleInput(this.textField.getText());
 		if(a != null && a.length > 0)
-			this.textPane.setText(p.makeString(a));
+			this.txtpnOutput.setText("Output:\n"+p.makeString(a));
 		else
-			this.textPane.setText("This PLZ can't be found inside switzerland");
+			this.txtpnOutput.setText("Output:\nThis PLZ can't be found inside switzerland");
 	}
 	
 	private void save()
