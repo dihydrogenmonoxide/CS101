@@ -180,6 +180,7 @@ public class PLZ
 			{
 				out.write(PLZlist.get(i).toString()+"\n");
 			}
+			fstream.close();
 		}
 		catch(IOException e)
 		{
