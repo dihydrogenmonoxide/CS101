@@ -8,7 +8,7 @@ import javax.swing.event.*;
 
 
 
-public class GOL_Fenster extends Component implements MouseListener{
+public class GOL_Fenster extends Component implements MouseListener,Runnable{
 
 	
 	private static final long serialVersionUID = 1L;
@@ -26,11 +26,12 @@ public class GOL_Fenster extends Component implements MouseListener{
 	
 	//settings of the game
 	private boolean running=true;
-	private int delay=100;	
+	private int delay=250;	
 	
 	private int cells;		
 	private GameOfLife game;
-
+	private Thread tGame;
+	private Thread tRedraw;
 	
 	/**Starts GOL_Fenster with a default of 50 cells*/
 	public  GOL_Fenster(){
@@ -56,15 +57,25 @@ public class GOL_Fenster extends Component implements MouseListener{
 		w.pack();
 		w.setVisible(true);
 		
-		
 		addMouseListener(this);
-				
+		
 		//now to the infinite loop
 		while(true){
 			/*sleep*/
 			try{Thread.sleep(delay);}catch(InterruptedException e){/*nothing to do*/}
 			
-			if(running){nextStep();}
+			//wait for the game and the redraw thread to finish
+			try{tGame.join();tRedraw.join();}catch(Exception e){/*nothing to do*/}
+			
+			if(running){
+				//redraw thread
+				tRedraw=new Thread(this);
+				tRedraw.start();
+				
+				//game thread
+				tGame=new Thread(game); //start a new thread, simpler than a wait() notify() thingy 
+				tGame.start(); //calculate next step
+			}
 		}
 	}
 	
@@ -165,7 +176,7 @@ public class GOL_Fenster extends Component implements MouseListener{
 	    velocity.addChangeListener(new ChangeListener(){public void stateChanged(ChangeEvent e) {
 	            JSlider source = (JSlider)e.getSource();
 	            if (!source.getValueIsAdjusting()) {
-	                delay = 20*((100-(int)source.getValue())+1); 
+	                delay = 5*((100-(int)source.getValue())); 
 	                source.setBorder(BorderFactory.createTitledBorder("Velocity delay="+String.valueOf(delay)+"ms"));
 	            }
     	}});
@@ -237,6 +248,13 @@ public static void main(String[] args) {
 		
 		
 	}
+
+@Override
+public void run() {
+	// TODO Auto-generated method stub
+	w.repaint();
+	
+}
 
 
 	

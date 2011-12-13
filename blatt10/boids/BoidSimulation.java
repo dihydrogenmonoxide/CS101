@@ -64,9 +64,11 @@ public class BoidSimulation {
 			 * using (m-r)^2<R^2 (circle for vectors)
 			 * point r, middlepoint m and radius R
 			 * 
-			 * if true add it to the result list
+			 * if true add it to the result list, doesn't add itself to the list
 			 */ 
-			if(middle.minus(neighbour.getPosition()).normL2()<range*range){
+			if( !neighbour.equals(boid)&&
+				middle.minus(neighbour.getPosition()).normL2()<range*range)
+			{
 				result.add(neighbour);
 			}
 			
