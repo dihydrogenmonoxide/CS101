@@ -3,8 +3,10 @@ package PLZ;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
 import java.text.ParseException;
 import javax.swing.border.*;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.text.*;
 
 public class plzguigen extends JFrame {
@@ -23,6 +25,7 @@ public class plzguigen extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -33,7 +36,7 @@ public class plzguigen extends JFrame {
 					e.printStackTrace();
 				}
 			}
-		});
+		});//*/
 	}
 
 	/**
@@ -123,6 +126,15 @@ public class plzguigen extends JFrame {
 		mntmSave.setMnemonic(KeyEvent.VK_S);
 		mnFile.add(mntmSave);
 		
+		fc.setFileFilter(new FileFilter() {
+            public boolean accept(File f) {
+                return f.getName().toLowerCase().endsWith(".txt") || f.isDirectory();
+            }
+            public String getDescription() {
+                return "text files(*.txt)";
+            }
+        });
+		
 		
 	}
 	
@@ -153,7 +165,7 @@ public class plzguigen extends JFrame {
 	{
 		if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
 		{
-			p.save(fc.getSelectedFile()+".txt");		
+			p.save(fc.getSelectedFile().getPath());		
 		}
 	}
 	
