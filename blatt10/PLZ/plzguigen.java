@@ -165,7 +165,10 @@ public class plzguigen extends JFrame {
 	{
 		if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
 		{
-			p.save(fc.getSelectedFile().getPath());		
+			if(fc.getSelectedFile().getAbsolutePath().toLowerCase().endsWith(".txt"))
+					p.save(fc.getSelectedFile().getAbsolutePath());		
+			else
+				p.save(fc.getSelectedFile().getAbsolutePath()+".txt");
 		}
 	}
 	
