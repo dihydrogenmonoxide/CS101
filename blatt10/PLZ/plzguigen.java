@@ -6,7 +6,6 @@ import java.awt.event.*;
 import java.text.ParseException;
 import javax.swing.border.*;
 import javax.swing.text.*;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class plzguigen extends JFrame {
 
@@ -41,7 +40,7 @@ public class plzguigen extends JFrame {
 	 * Create the frame.
 	 */
 	public plzguigen() {
-		p.parse("blatt10/plz/plz.txt");
+		p.parse("blatt10/PLZ/plz.txt");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("some PLZ stuff");
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("blatt10/PLZ/smile.png"));
@@ -53,7 +52,7 @@ public class plzguigen extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		
-		JLabel lblEnterThePlz = DefaultComponentFactory.getInstance().createLabel("Enter the PLZ:");
+		JLabel lblEnterThePlz =new JLabel("Enter the PLZ:");
 		panel.add(lblEnterThePlz);
 		
 		textField = new JFormattedTextField(textmask());
