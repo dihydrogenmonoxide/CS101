@@ -67,7 +67,7 @@ public class BoidSimulation {
 			 * if true add it to the result list, doesn't add itself to the list
 			 */ 
 			if( !neighbour.equals(boid)&&
-				middle.minus(neighbour.getPosition()).normL2()<range*range)
+				middle.minus(neighbour.getPosition()).normL2()<=range)
 			{
 				result.add(neighbour);
 			}
