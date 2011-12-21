@@ -4,8 +4,8 @@ package MandelFred;
 
 public class Mandelbrot {
 	private static int numThreads = 8;
-	private static final int SizeX=1600;
-	private static final int SizeY=900;
+	private static final int SizeX=800;
+	private static final int SizeY=640;
 
 	public static void show_mandelbrot(Complex c_origin, double c_step, int max_iter) {
 		MainWindow frame = new MainWindow(10,10,SizeX,SizeY);
@@ -46,8 +46,8 @@ public class Mandelbrot {
 		MainWindow frame = new MainWindow(10,10,SizeX,SizeY);
 		frame.setTitle("show_mandelbrot_threaded");
 		MandelRunnable f[] = new MandelRunnable[numThreads];
-		int stepX = frame.getszx()/f.length;
-		int end = frame.getszx()-1;
+		int stepX = frame.getszy()/f.length;
+		int end = frame.getszy()-1;
 		
 		for(int i = 0; i != f.length-1;i++)
 		{
@@ -83,8 +83,8 @@ public class Mandelbrot {
 		MainWindow frame = new MainWindow(10,10,SizeX,SizeY);
 		frame.setTitle("show_mandelbrot_inplace_threaded");
 		MandelRunnable_inplace f[] = new MandelRunnable_inplace[numThreads];
-		int stepX = frame.getszx()/f.length;
-		int end = frame.getszx()-1;
+		int stepX = frame.getszy()/f.length;
+		int end = frame.getszy()-1;
 		
 		for(int i = 0; i != f.length-1;i++)
 		{
@@ -166,7 +166,10 @@ public class Mandelbrot {
 		{
 			numThreads = Runtime.getRuntime().availableProcessors();
 		}
-
+		
+	//	numThreads = 64;
+	//	show_mandelbrot_inplace_threaded(new Complex(-0.755, -0.1), 0.0000009, 1000);
+		//*
 		long time1=System.currentTimeMillis();    
 		show_mandelbrot(new Complex(-2.5, -1.3),   0.005, 1000);
 		show_mandelbrot(new Complex(-0.755, -0.1), 0.00002, 1000);
@@ -188,7 +191,7 @@ public class Mandelbrot {
 		time4=System.currentTimeMillis()-time4;
 		
 		System.out.println("First time  ="+time1+"MS\nSecond time ="+time2+"MS");
-		System.out.println("Runtime with "+ numThreads +" Threads = "+time3+"MS\nrunning it inplace = "+time4+"MS");
+		System.out.println("Runtime with "+ numThreads +" Threads = "+time3+"MS\nrunning it inplace = "+time4+"MS");//*/
 	}
 
 

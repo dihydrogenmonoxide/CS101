@@ -28,9 +28,9 @@ extends Thread
 		/* Implementieren des Mandelbrot Algorithmus */
 
 		//iterate through all pixels
-		for(int pos_x=start;pos_x<=end;pos_x++)
+		for(int pos_x=0;pos_x<frame.getszx();pos_x++)
 		{
-			for(int pos_y=0;pos_y<frame.getszy();pos_y++)
+			for(int pos_y=start;pos_y<=end;pos_y++)
 			{
 				//now calculate escape velocity for every pixel
 
@@ -79,9 +79,9 @@ extends Thread
 		/* Implementieren des Mandelbrot Algorithmus */
 
 		//iterate through all pixels
-		for(int pos_x=start;pos_x<=end;pos_x++)
+		for(int pos_x=0;pos_x<frame.getszx();pos_x++)
 		{
-			for(int pos_y=0;pos_y<frame.getszy();pos_y++)
+			for(int pos_y=start;pos_y<=end;pos_y++)
 			{
 				//now calculate escape velocity for every pixel
 
