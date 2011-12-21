@@ -26,7 +26,7 @@ public class FaltungsKern {
     	
     }
 
-    public FaltungsKern(String filename) throws Exception{
+    public FaltungsKern(String filename) throws CoreLoadException{
       lade_kern(filename);
     }
 
@@ -34,34 +34,49 @@ public class FaltungsKern {
     	if (debug){System.out.println("begin falten");}
         	
     	
-    	if (debug){System.out.println("-creating buffer");}
-        ImageWindow buffer=new ImageWindow(iw.getWidth(),iw.getHeight());
+    	/*
+    	 * Create a buffer array for every color-channel,
+    	 * transcribe the image in the buffers 
+    	 **/
+    	if (debug){System.out.println("-creating buffers");}
+        int[][] bufRed =new int[iw.getWidth()][iw.getHeight()];
+        int[][] bufGreen =new int[iw.getWidth()][iw.getHeight()];
+        int[][] bufBlue =new int[iw.getWidth()][iw.getHeight()];
+        
     	for(int x=0;x<iw.getWidth();x++){
     		for(int y=0;y<iw.getHeight();y++){
-    			buffer.setPixel(x, y, iw.getPixelRed(x, y), iw.getPixelGreen(x, y), iw.getPixelBlue(x, y));
+    			bufRed[x][y]=iw.getPixelRed(x, y);
+    			bufGreen[x][y]=iw.getPixelGreen(x, y);
+    			bufBlue[x][y]=iw.getPixelBlue(x, y);
     		}
     	}
     	if (debug){System.out.println("-buffer created");}
     	
     	
-        float red;
-        float green;
-        float blue;
+    	/*
+    	 * Iterate through all Pixels, the color values of the momentary pixel is saved in pix* 
+    	 * the coordinates of the pixels are x,y
+    	 * and the actual core position in xPos resp. yPos
+    	 * 
+    	 * */
+    	
+        float pixRed;
+        float pixGreen;
+        float pixBlue;
         
         int xPos;
         int yPos;
-        
+          
         if (debug){System.out.println("-starting iteration");}
-        //iterate through all Pixels
     	for(int x=0;x<iw.getWidth();x++){
     		for(int y=0;y<iw.getHeight();y++){
     			
-    			//reset colors
-    			red = 0;
-    			green=0;
-    			blue=0;
+    			//reset colors to gain
+    			pixRed 	=gain;
+    			pixGreen=gain;
+    			pixBlue	=gain;
     			
-    			//iterate through core (for each pixel)
+    			//apply core to the actual pixel)
     			for(int i=0;i<kern.length;i++){
     				for(int j=0;j<kern[i].length;j++){
     					
@@ -74,25 +89,20 @@ public class FaltungsKern {
     					if(yPos<0){yPos=0;}
     					if(yPos>iw.getHeight()){yPos=iw.getHeight()-1;}
     					
-    					red +=buffer.getPixelRed(xPos,yPos)*kern[i][j];
-    					green +=buffer.getPixelGreen(xPos,yPos)*kern[i][j];
-    					blue +=buffer.getPixelBlue(xPos,yPos)*kern[i][j];
+    					pixRed		+=bufRed[xPos][yPos]*kern[i][j];
+    					pixGreen 	+=bufGreen[xPos][yPos]*kern[i][j];
+    					pixBlue		+=bufBlue[xPos][yPos]*kern[i][j];
     					
     				}
     			}
-    			//add gain to every channel
-    			red +=gain;
-    			green +=gain;
-    			blue +=gain;
     			
-    			
-    			if(red>255){red=255;}
-    			if(green>255){green=255;}
-    			if(blue>255){blue=255;}
+    			//check if colors are inside the range 
+    			if(pixRed>255){pixRed=255;}
+    			if(pixGreen>255){pixGreen=255;}
+    			if(pixBlue>255){pixBlue=255;}
     			
     			//set Pixel in the iw
-    			iw.setPixel(x, y, (int)(red), (int)(green), (int)(blue));
-    			
+    			iw.setPixel(x, y, (int)(pixRed), (int)(pixGreen), (int)(pixBlue));
     			
     		}
     	}
@@ -107,6 +117,9 @@ public class FaltungsKern {
         // berechne den Grauwert als (Rot+Grün+Blau)/3
         // Falte das Bild nur einmal pro (x/y) Stelle
         // schreibe in jeden Farbkanal diesen Wert
+    	
+    	//not optimized, very slow, who cares
+    	
     	if (debug){System.out.println("begin falten_grau");}
         	
     	
@@ -174,32 +187,37 @@ public class FaltungsKern {
         // setze das Zielbild auf den Wert welcher in der Liste in der Mitte steht
     }
 
-    public void lade_kern(String filename) throws Exception{
+    public void lade_kern(String filename) throws CoreLoadException{
     	if (debug){System.out.println("parsing new core");}
     	try{
     	FileInputStream is = new FileInputStream(filename); 
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
+        //read the four lines
         String[] size=br.readLine().substring(5).split(" ");
         String[] norm=br.readLine().substring(5).split(" ");
         String 	 gain=br.readLine().substring(5);
         String[] data=br.readLine().substring(5).split(" ");
       
-       
+        // read core size
         int x_size=Integer.valueOf(size[0]), y_size=Integer.valueOf(size[1]);
         float[][] _kern=new float[x_size][y_size];
         
-        
+        //read norm
         Float num=Float.valueOf(norm[0]), denum=Float.valueOf(norm[1]);
         float _norm = num/denum;
         
+        //read gain
         float _gain=Float.valueOf(gain);
         
+        //read core
         for(int i=0;i<y_size;i++){
         	for(int j=0;j<x_size;j++){
         		_kern[i][j]=Float.valueOf(data[i*y_size+j])*_norm;
         	}
         }
+        
+        
         
         //everything must have worked
         this.kern=_kern;
@@ -208,15 +226,15 @@ public class FaltungsKern {
         
         //catching errors
     	}catch(FileNotFoundException e){
-    		throw(new Exception("Datei wurde nicht gefunden"));
+    		throw(new CoreLoadException("Datei wurde nicht gefunden"));
     	}catch(IOException e){
-    		throw(new Exception("Lesefehler der Datei"));
+    		throw(new CoreLoadException("Lesefehler der Datei"));
     	}catch(ArrayIndexOutOfBoundsException e){
-    		throw(new Exception("Inkonsistente Datei"));
+    		throw(new CoreLoadException("Inkonsistente Datei"));
     	}catch(NumberFormatException e){
-    		throw(new Exception("Falsche Zahlenformate"));
+    		throw(new CoreLoadException("Falsche Zahlenformate"));
     	}catch(NullPointerException e){
-    		throw(new Exception("Inkonsistente Datei"));
+    		throw(new CoreLoadException("Inkonsistente Datei"));
     	}
         
         if (debug){

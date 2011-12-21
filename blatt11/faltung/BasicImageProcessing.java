@@ -19,6 +19,8 @@ public class BasicImageProcessing {
 		File core = null;
 		
 		while(true){
+			int action=11;
+			//recurring menu
 			System.out.println("Your options: ");
 			System.out.println(" 1. Load Image");
 			System.out.println(" 2. Load Core");
@@ -27,7 +29,11 @@ public class BasicImageProcessing {
 			System.out.println(" 10. Enable debug info");
 			System.out.println(" 0. Exit");
 			System.out.println("Enter number for action:");
-			int action=Integer.valueOf(in.nextLine());
+			try{
+				action=Integer.valueOf(in.nextLine());
+			}catch(Exception e){
+				System.out.println("I SAID NUMBAA");
+			}
 			
 			switch(action){
 				case 0:
@@ -42,8 +48,9 @@ public class BasicImageProcessing {
 					img=new File(path);
 					System.out.println("Load Image at "+path);
 					
-					if(img.canRead()){
+					if(img.exists()&&img.canRead()){
 						try{
+							iw.loadImage(img.getAbsolutePath());
 							iw.openWindow();
 							iw.resizeImage(iw.getImageWidth(), iw.getImageHeight());
 						}catch(Exception e){
@@ -60,10 +67,10 @@ public class BasicImageProcessing {
 					path = in.nextLine();
 					core=new File(path);
 					System.out.println("Load Core at "+path);
-					if(core.canRead()){
+					if(core.exists()&&core.canRead()){
 						try {
 							k.lade_kern(core.getAbsolutePath());
-						} catch (Exception e) {
+						} catch (CoreLoadException e) {
 							System.out.println(e.getMessage());
 						}
 					}else{
@@ -72,7 +79,9 @@ public class BasicImageProcessing {
 					break;
 					
 				case 3:
-					if(core.isFile()&&img.isFile()){
+					if( img!=null&&core!=null
+						&&img.isFile()&&core.isFile()
+						){
 						System.out.println("Apply Core "+core.getName()+" to Image "+img.getName());
 						k.falten(iw);
 					}else{
@@ -81,7 +90,9 @@ public class BasicImageProcessing {
 					break;
 			
 				case 4:
-					if(core.isFile()&&img.isFile()){
+					if( img!=null&&core!=null
+						&&img.isFile()&&core.isFile()
+					){
 						System.out.println("Apply Core "+core.getName()+" to Image "+img.getName());
 						k.falten_grau(iw);
 					}else{
@@ -92,7 +103,7 @@ public class BasicImageProcessing {
 				case 10:
 					k.debug=true;
 					System.out.println("verbose mode enabled");
-					break;
+					break;	
 			}
 		}
 	}
