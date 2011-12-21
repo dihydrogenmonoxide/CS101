@@ -166,8 +166,6 @@ public class Mandelbrot {
 		{
 			numThreads = Runtime.getRuntime().availableProcessors();
 		}
-		
-		numThreads = 64;
 
 		long time1=System.currentTimeMillis();    
 		show_mandelbrot(new Complex(-2.5, -1.3),   0.005, 1000);
