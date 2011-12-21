@@ -189,7 +189,7 @@ public class Mandelbrot {
 		show_mandelbrot_inplace_threaded(new Complex(-0.755, -0.1), 0.00002, 1000);
 		time4=System.currentTimeMillis()-time4;
 		
-		System.out.println("First time  ="+time1+"\nSecond time ="+time2);
+		System.out.println("First time  ="+time1+"MS\nSecond time ="+time2+"MS");
 		System.out.println("Runtime with "+numThreads+" Threads = "+time3+"MS\nrunning it inplace = "+time4+"MS");
 	}
 
