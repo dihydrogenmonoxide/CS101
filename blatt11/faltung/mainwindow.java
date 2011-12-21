@@ -1,7 +1,6 @@
 package faltung;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -18,8 +17,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import ch.unibas.informatik.cs101.ImageWindow;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +30,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import javax.swing.JProgressBar;
 
 public class mainwindow extends JFrame {
 
@@ -44,7 +40,6 @@ public class mainwindow extends JFrame {
 	private JPanel contentPane;
 	private JFileChooser fc1 = new JFileChooser();
 	private JFileChooser fc2 = new JFileChooser();
-	private JProgressBar progressBar;
 
 	private IMG iw;
 
