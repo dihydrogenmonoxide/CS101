@@ -190,7 +190,7 @@ public class Mandelbrot {
 		time4=System.currentTimeMillis()-time4;
 		
 		System.out.println("First time  ="+time1+"MS\nSecond time ="+time2+"MS");
-		System.out.println("Runtime with "+numThreads+" Threads = "+time3+"MS\nrunning it inplace = "+time4+"MS");
+		System.out.println("Runtime with "+ numThreads +" Threads = "+time3+"MS\nrunning it inplace = "+time4+"MS");
 	}
 
 
