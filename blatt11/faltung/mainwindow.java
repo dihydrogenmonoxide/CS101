@@ -25,6 +25,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,7 +52,7 @@ public class mainwindow extends JFrame {
     private float norm;
     private float gain;
 
-    private boolean debug=false;
+    private boolean debug=true;
 	/**
 	 * Launch the application.
 	 */
@@ -276,11 +278,8 @@ public class mainwindow extends JFrame {
     	BufferedImage old = iw.im;
         BufferedImage buffer=new BufferedImage(old.getWidth(),old.getHeight(),BufferedImage.TYPE_INT_ARGB);
         
-    	for(int x=0;x<old.getWidth();x++){
-    		for(int y=0;y<old.getHeight();y++){
-    			buffer.setRGB(x, y, old.getRGB(x, y));
-    		}
-    	}
+        buffer = iw.deepCopy();
+    	
     	if (debug){System.out.println("-buffer created");}
     	
     	
@@ -290,6 +289,8 @@ public class mainwindow extends JFrame {
         
         int xPos;
         int yPos;
+        int color;
+        color = 0xFF000000;//setting alpha chain
         
         if (debug){System.out.println("-starting iteration");}
         //iterate through all Pixels
@@ -309,19 +310,23 @@ public class mainwindow extends JFrame {
     					yPos=y-kern.length+i+1;
     					
     					//say no to out of bounds error
-    					xPos=(xPos+old.getWidth())%old.getWidth();
-    					yPos=(yPos+old.getHeight())%old.getHeight();
+    				//	xPos=(xPos+old.getWidth())%old.getWidth();
+    				//	yPos=(yPos+old.getHeight())%old.getHeight();
     					
-    				/*	//check if pixel is outside the buffer, if so set Position to the border
+    					//check if pixel is outside the buffer, if so set Position to the border
     					if(xPos<0){xPos=0;}
     					if(xPos>old.getWidth()){xPos=old.getWidth()-1;}
     					if(yPos<0){yPos=0;}
     					if(yPos>old.getHeight()){yPos=old.getHeight()-1;}
-    					*/
     					
-    					red +=(new Color(buffer.getRGB(xPos, yPos))).getRed()*kern[i][j];
-    					green +=(new Color(buffer.getRGB(xPos, yPos))).getGreen()*kern[i][j];
-    					blue +=(new Color(buffer.getRGB(xPos, yPos))).getBlue()*kern[i][j];
+    					
+    				//	red +=(new Color(buffer.getRGB(xPos, yPos))).getRed()*kern[i][j];
+    				//	green +=(new Color(buffer.getRGB(xPos, yPos))).getGreen()*kern[i][j];
+    				//	blue +=(new Color(buffer.getRGB(xPos, yPos))).getBlue()*kern[i][j];
+    					
+    					red +=((buffer.getRGB(xPos, yPos)>>16)&0xFF)*kern[i][j];
+    					green +=((buffer.getRGB(xPos, yPos)>>8)&0xFF)*kern[i][j];
+    					blue +=(buffer.getRGB(xPos, yPos)&0xFF)*kern[i][j];
     					
     				}
     			}
@@ -340,13 +345,19 @@ public class mainwindow extends JFrame {
     				red = green = blue = (red+green+blue)/3;
     			}
     			
+    			color = color&0xFF000000;
+    			color = color|(((int) red)<<16);
+    			color = color|(((int) green)<<8);
+    			color = color|(((int) blue));
+    			
     			//set Pixel in the iw
-    			old.setRGB(x, y, new Color((int)red,(int)green,(int)blue).getRGB());	
+    			old.setRGB(x, y, color);	
     		}
     //	this.progressBar.setValue(x*100/old.getWidth());
     //	this.repaint();
     	}
     	if (debug){System.out.println("-ended iteration");}
+    	
     	this.repaint();
     	//somehow the repaint isn't fully doing the trick - quick & dirty workaround
     	this.setSize(100,100);
@@ -374,6 +385,7 @@ class IMG extends Panel
 		  } catch (IOException e) {
 			  System.out.println("Error:"+e.getMessage());
 		  }
+		  this.setIgnoreRepaint(false);
 		  this.setPreferredSize(new Dimension(im.getWidth(),im.getHeight()));
 	  }
 
@@ -381,5 +393,12 @@ class IMG extends Panel
 	  {
 		  g.drawImage(im, 0, 0, null);
 	  }
+	  BufferedImage deepCopy() {
+		  ColorModel cm = im.getColorModel();
+		  boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+		  WritableRaster raster = im.copyData(null);
+		  return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+		 }
+
 }
 
