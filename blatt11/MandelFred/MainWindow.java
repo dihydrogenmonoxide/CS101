@@ -3,8 +3,18 @@ package MandelFred;
 
 import java.awt.*;
 import java.awt.image.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.filechooser.FileFilter;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class MainWindow extends JFrame {
 
@@ -13,6 +23,7 @@ public class MainWindow extends JFrame {
 	 */
 	private static final long serialVersionUID = 4909624500709994413L;
 	private JPanel contentPane;
+	private JFileChooser fc1 = new JFileChooser();
 
 	private IMG iw;
 
@@ -21,9 +32,39 @@ public class MainWindow extends JFrame {
 	 */
 	public MainWindow(int x, int y,int szx,int szy) {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 431, 373);
+		setBounds(100, 100, 494, 293);
 		this.setTitle("Mandelbröt");
 		this.setLocation(x, y);
+		
+		fc1.setFileFilter(new FileFilter() 
+		{
+            public boolean accept(File f)
+            {
+                return f.getName().toLowerCase().endsWith(".png") ||
+                		f.isDirectory();
+            }
+            public String getDescription()
+            {
+                return "Portäibl netwörk gräfiks (*.png)";
+            }
+		});
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		mnFile.setMnemonic('f');
+		menuBar.add(mnFile);
+		
+		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.setMnemonic('s');
+		mntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				save();
+			}
+		});
+		mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+		mnFile.add(mntmSave);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
@@ -49,6 +90,24 @@ public class MainWindow extends JFrame {
 		int color = 0xFF000000;
 		color |=(r<<16)|(g<<8)|b;
 		iw.im.setRGB(x, y, color);
+	}
+	
+	private void save()
+	{
+		if(fc1.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+		{
+			try
+			{
+				if(fc1.getSelectedFile().getAbsolutePath().toLowerCase().endsWith(".png"))
+					ImageIO.write(iw.im, "png", fc1.getSelectedFile());
+				else
+					ImageIO.write(iw.im, "png",new File(fc1.getSelectedFile().getAbsolutePath()+".png"));
+			}
+			catch(IOException e)
+			{
+				//true story			
+			}
+		}		
 	}
 }
 
