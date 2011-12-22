@@ -272,15 +272,17 @@ public class mainwindow extends JFrame {
 		if (debug){System.out.println("-creating buffer");}
 		BufferedImage old = iw.im;
 
+		int color;
 		int[][] bufRed =new int[old.getWidth()][old.getHeight()];
 		int[][] bufGreen =new int[old.getWidth()][old.getHeight()];
 		int[][] bufBlue =new int[old.getWidth()][old.getHeight()];
 
 		for(int x=0;x<old.getWidth();x++){
 			for(int y=0;y<old.getHeight();y++){
-				bufRed[x][y]=(old.getRGB(x, y)>>16)&0xFF;
-				bufGreen[x][y]=(old.getRGB(x, y)>>8)&0xFF;
-				bufBlue[x][y]=old.getRGB(x, y)&0xFF;
+				color =old.getRGB(x, y);
+				bufRed[x][y]=(color>>16)&0xFF;
+				bufGreen[x][y]=(color>>8)&0xFF;
+				bufBlue[x][y]=color&0xFF;
 			}
 		}
 
@@ -300,7 +302,7 @@ public class mainwindow extends JFrame {
 
 		int xPos;
 		int yPos;
-		int color;
+		
 
 		if (debug){System.out.println("-starting iteration");}
 		for(int x=0;x<iw.getWidth();x++){
